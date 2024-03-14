@@ -84,6 +84,28 @@ public class Villager : MonoBehaviour
     {
         animator.SetTrigger("Attack");
     }
+    protected virtual void Dash()
+    {
+        movement = destination - (Vector2)transform.position;
+
+        //flip the x direction of the game object & children to face the direction we're walking
+        if (movement.x > 0)
+        {
+            transform.localScale = new Vector3(-1, 1, 1);
+        }
+        else if (movement.x < 0)
+        {
+            transform.localScale = new Vector3(1, 1, 1);
+        }
+
+        //stop moving if we're close enough to the target
+        if (movement.magnitude < 0.1)
+        {
+            movement = Vector2.zero;
+        }
+
+        rb.MovePosition(rb.position + movement.normalized * speed * Time.deltaTime);
+    }
     public virtual ChestType Canopen()
     {
         return ChestType.Villager;
