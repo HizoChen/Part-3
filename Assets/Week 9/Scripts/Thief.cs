@@ -4,29 +4,47 @@ using UnityEngine;
 
 public class Thief : Villager
 {
-    public GameObject daggerPrefab;
-    public Transform spawnPoint;
+    public GameObject knifePrefab;
+    public Transform spawnPoint1;
     public Transform spawnPoint2;
+    Coroutine dashing;
+    //float timer;
+    //public float dashTime = 2;
+    //bool isDashing;
     protected override void Attack()
     {
-        if (transform.localScale.x > 0)
-            {
-                transform.Translate(Vector3.left);
-            }
-       else if (transform.localScale.x < 0)
-            {
-            transform.Translate(Vector3.right);
+        if (dashing != null)
+        {
+            StopCoroutine(dashing);
+            StopAllCoroutines();
         }
-        destination = transform.position;
-        base.Attack();
-        base.Dash();
-        Instantiate(daggerPrefab, spawnPoint.position, spawnPoint.rotation);
-        Instantiate(daggerPrefab, spawnPoint2.position, spawnPoint2.rotation);
+        dashing = StartCoroutine(Dash());
+    }
+    IEnumerator Dash()
+    {
+        //dash towards mouse
+        destination = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        speed = 7;
+        while (speed > 3 )
+        {
+            yield return null;
+        }
+
+            base.Attack();
+            yield return new WaitForSeconds(0.1f);
+            Instantiate(knifePrefab, spawnPoint1.position, spawnPoint1.rotation);
+        yield return new WaitForSeconds(0.1f);
+        Instantiate(knifePrefab, spawnPoint2.position, spawnPoint2.rotation);
         
     }
-    public override ChestType Canopen()
+ 
+    public override ChestType CanOpen ()
     {
         return ChestType.Thief;
     }
-
+    public override string ToString ()
+    {
+        return " Hi,I'm Bob";
+    }
 }
+
