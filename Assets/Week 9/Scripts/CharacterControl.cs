@@ -4,8 +4,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Xml.Linq;
+
 public class CharacterControl : MonoBehaviour
 {
+    float interpolation;
     public Villager[] array = new Villager[3];
     public TMP_Dropdown dropdown;
     public TMPro.TextMeshProUGUI currentSelection;
@@ -25,6 +28,12 @@ public class CharacterControl : MonoBehaviour
         SelectedVillager.Selected(true);
         Instance.currentSelection.text = villager.ToString();
     }
+    public void SliderHasChangedValue(Single value)
+    {
+        
+        SelectedVillager.transform.localScale = Vector3.one*value;
+    }
+   
     public void DropdownHasChangedValue(int value)
 
     {
