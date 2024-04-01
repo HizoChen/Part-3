@@ -6,10 +6,6 @@ using UnityEngine;
 public class Red : apple
 {
     Coroutine coroutine;
-    protected override void Start()
-    {
-        base.Start();
-    }
 
     protected override void OnCollisionEnter2D(Collision2D collision)
     {

@@ -8,7 +8,6 @@ using UnityEditor.Experimental.GraphView;
 using static UnityEngine.RuleTile.TilingRuleOutput;
 public class apple : MonoBehaviour
 {
-    public AnimationCurve ac;
     Rigidbody2D rb;
     protected Animator animator;
     bool clickingOnSelf;
@@ -17,6 +16,7 @@ public class apple : MonoBehaviour
     Vector2 destination;
     public GameObject highlight;
      public float speed;
+
     protected virtual void Start()
     {
         speed = 4;
@@ -67,7 +67,7 @@ public class apple : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Face"))
         { 
-            collision.gameObject.SendMessage("EatApple", 1, SendMessageOptions.DontRequireReceiver);
+            AppleController.EatApple(1);
             Destroy(gameObject);
             AppleSpawner.Count -= 1;
             Debug.Log("eatapple");
@@ -80,4 +80,5 @@ public class apple : MonoBehaviour
 
     }
 
- }
+
+    }

@@ -5,10 +5,7 @@ using UnityEngine;
 public class Black : apple
 {
     Coroutine exploding;
-    protected override void Start()
-    {
-        base.Start();
-    }
+
     public override void Selected(bool value)
     {
         base.Selected(value);
