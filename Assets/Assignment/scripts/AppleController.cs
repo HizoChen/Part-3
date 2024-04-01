@@ -5,7 +5,6 @@ using UnityEngine;
 public class AppleController : MonoBehaviour
 {
     float interpolation;
-    public apple[] array = new apple[3];
     public static apple SelectedApple;
      public static void SetSelectedApple(apple apple)
     {

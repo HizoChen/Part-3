@@ -1,30 +1,32 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
-
+using UnityEngine.SocialPlatforms.Impl;
+using UnityEditor.Experimental.GraphView;
+using static UnityEngine.RuleTile.TilingRuleOutput;
 public class apple : MonoBehaviour
 {
+    public AnimationCurve ac;
     Rigidbody2D rb;
-    Animator animator;
-
+    protected Animator animator;
     bool clickingOnSelf;
     bool isSelected;
     Vector2 movement;
     Vector2 destination;
     public GameObject highlight;
-
-    public float speed;
-
-    // Start is called before the first frame update
-    void Start()
+     public float speed;
+    protected virtual void Start()
     {
+        speed = 4;
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        transform.position = new Vector3(Random.Range(-8f, 8f), Random.Range(-2.5f, 3.5f), 0);
         destination = transform.position;
         Selected(false);
     }
-    public void Selected(bool value)
+    public virtual void Selected(bool value)
     {
         isSelected = value;
         highlight.SetActive(isSelected);
@@ -33,12 +35,9 @@ public class apple : MonoBehaviour
     private void FixedUpdate()
     {
         movement = destination - (Vector2)transform.position;
-
-        //stop moving if we're close enough to the target
         if (movement.magnitude < 0.1)
         {
             movement = Vector2.zero;
-            speed = 3;
         }
 
         rb.MovePosition(rb.position + movement.normalized * speed * Time.deltaTime);
@@ -64,5 +63,21 @@ public class apple : MonoBehaviour
     {
         clickingOnSelf = false;
     }
+    protected virtual void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Face"))
+        { 
+            collision.gameObject.SendMessage("EatApple", 1, SendMessageOptions.DontRequireReceiver);
+            Destroy(gameObject);
+            AppleSpawner.Count -= 1;
+            Debug.Log("eatapple");
+        }
+       
+    }
+    
+    protected virtual void OnCollisionEnter2D(Collision2D collision)
+    {
 
-}
+    }
+
+ }
